@@ -134,7 +134,6 @@ module Net; module SSH
       # the returned hash will have Symbols for keys.
       def translate(settings)
         settings.inject({}) do |hash, (key, value)|
-          hash[:auth_methods] ||= settings[:auth_methods] || default_auth_methods.clone
           case key
           when 'bindaddress' then
             hash[:bind_address] = value
