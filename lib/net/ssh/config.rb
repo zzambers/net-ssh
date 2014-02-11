@@ -48,7 +48,7 @@ module Net; module SSH
       def default_files
         @@default_files
       end
-      
+
       def default_auth_methods
         @@default_auth_methods
       end
@@ -58,7 +58,7 @@ module Net; module SSH
       # #default_files), translates the resulting hash into the options
       # recognized by Net::SSH, and returns them.
       def for(host, files=default_files)
-        hash = translate(files.inject({}) { |settings, file| 
+        hash = translate(files.inject({}) { |settings, file|
           load(file, host, settings)
         })
       end
@@ -74,14 +74,14 @@ module Net; module SSH
         return settings unless File.readable?(file)
 
         settings[:auth_methods] ||= default_auth_methods.clone
-        
+
         globals = {}
         matched_host = nil
         multi_host = []
         seen_host = false
         IO.foreach(file) do |line|
           next if line =~ /^\s*(?:#.*)?$/
-          
+
           if line =~ /^\s*(\S+)\s*=(.*)$/
             key, value = $1, $2
           else
@@ -93,14 +93,14 @@ module Net; module SSH
 
           key.downcase!
           value = $1 if value =~ /^"(.*)"$/
-          
+
           value = case value.strip
             when /^\d+$/ then value.to_i
             when /^no$/i then false
             when /^yes$/i then true
             else value
             end
-          
+
           if key == 'host'
             # Support "Host host1 host2 hostN".
             # See http://github.com/net-ssh/net-ssh/issues#issue/6
@@ -122,9 +122,9 @@ module Net; module SSH
             end
           end
         end
-        
+
         settings = globals.merge(settings) if globals
-        
+
         return settings
       end
 
@@ -172,13 +172,13 @@ module Net; module SSH
             if value
               (hash[:auth_methods] << 'password').uniq!
             else
-              hash[:auth_methods].delete('password')
+              hash[:auth_methods] = hash[:auth_methods].delete('password')
             end
           when 'challengeresponseauthentication'
             if value
               (hash[:auth_methods] << 'keyboard-interactive').uniq!
             else
-              hash[:auth_methods].delete('keyboard-interactive')
+              hash[:auth_methods] = hash[:auth_methods].delete('keyboard-interactive')
             end
           when 'port'
             hash[:port] = value
@@ -193,7 +193,7 @@ module Net; module SSH
             if value
               (hash[:auth_methods] << 'publickey').uniq!
             else
-              hash[:auth_methods].delete('publickey')
+              hash[:auth_methods] = hash[:auth_methods].delete('publickey')
             end
           when 'rekeylimit'
             hash[:rekey_limit] = interpret_size(value)
