@@ -41,7 +41,7 @@ module Net; module SSH
       # http://lwn.net/Articles/544640/
       # "hostbased" is off and "none" is not supported but we allow it since
       # it's used by some clients to query the server for allowed auth methods
-      @@default_auth_methods = %w(none publickey password keyboard-interactive)
+      @@default_auth_methods = %w(none publickey hostbased password keyboard-interactive)
 
       # Returns an array of locations of OpenSSH configuration files
       # to parse by default.
