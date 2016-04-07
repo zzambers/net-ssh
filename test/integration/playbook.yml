@@ -22,8 +22,9 @@
         rvm1_rubies: "{{ ruby_versions }}",
         rvm1_install_path: "{{rvm_install_path}}",
         rvm1_gpg_key_server: pool.sks-keyservers.net,
-        when: "'{{current_ruby_version.stdout|default()}}' != '{{ruby_version}}'" }
+        when: "'{{current_ruby_version.stdout|default()}}' != '{{ruby_version}}' and not no_rvm" }
   tasks:
+    - group: name=vagrant state=present
     - user: name=net_ssh_1 password="{{foopwd}}" group=vagrant state=present
     - user: name=net_ssh_2 password="{{foo2pwd}}" group=vagrant state=present
     - file: dest=/home/net_ssh_1/.ssh/ state=directory mode=0740 owner=net_ssh_1

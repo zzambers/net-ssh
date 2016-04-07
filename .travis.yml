@@ -1,13 +1,9 @@
 language: ruby
-sudo: false
+sudo: true
+dist: trusty
+
 rvm:
-  - 2.0
-  - 2.1
-  - 2.2
   - 2.3.0
-  - jruby-head
-  - rbx-3.20
-  - ruby-head
 
 matrix:
   allow_failures:
@@ -15,9 +11,16 @@ matrix:
     - rvm: rbx-3.20
 
 install:
+  - sudo pip install ansible
   - gem install bundler -v "= 1.11.2"
   - bundle _1.11.2_ install
 
 script:
   - bundle exec rake test
   - bundle exec rubocop
+  - sudo ansible-galaxy install rvm_io.rvm1-ruby
+  - who am i
+  - groups
+  - ansible-playbook ./test/integration/playbook.yml -i "localhost," --become -c local -e 'no_rvm=true'
+
+
