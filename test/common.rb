@@ -1,14 +1,14 @@
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
 
-if ENV["CI"]
-  unless Gem.win_platform?
-    require 'simplecov'
-    SimpleCov.start
-
-    require 'codecov'
-    SimpleCov.formatter = SimpleCov::Formatter::Codecov
-  end
-end
+# if ENV["CI"]
+#   unless Gem.win_platform?
+#     require 'simplecov'
+#     SimpleCov.start
+#
+#     require 'codecov'
+#     SimpleCov.formatter = SimpleCov::Formatter::Codecov
+#   end
+# end
 
 require 'minitest'
 require 'mocha/setup'
