@@ -27,6 +27,7 @@ jobs:
       - name: Cache bundler
         uses: actions/cache@v1
         id: bundler-cache
+        if: 0
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-${{ matrix.ruby-version }}-gem-v3-${{ hashFiles('**/Gemfile') }}-${{ hashFiles('**/net-ssh.gemspec') }}
